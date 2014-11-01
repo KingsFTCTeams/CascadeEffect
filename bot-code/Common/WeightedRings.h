@@ -1,0 +1,7 @@
+void initWeightedRingSystem() {
+
+}
+
+void updateWeightedRings() {
+
+}

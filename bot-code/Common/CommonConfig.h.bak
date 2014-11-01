@@ -1,0 +1,463 @@
+#ifndef COMMON_CONFIG_H
+#define COMMON_CONFIG_H
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+//
+// BUILD VERSION - BUMP THIS WITH CODE CHANGES...
+//
+//              MINOR CHANGES: INCREMENT THE DECIMAL PORTION
+//              MAJOR CHANGES: INCREMENT THE INTEGER PORTION
+//
+#define BUILD_VERS 6.00
+
+  //-------------------------------------------------------------------------------------------
+	// comment in/out the following individually to enable/disable the feature
+	//
+	//#define ENABLE_NXT2EXCEL_DEBUGGING
+
+	#define ENABLE_PID_DRIVE_CONTROL
+
+  //-------------------------------------------------------------------------------------------
+	// Used in PID drive control as the error source
+	//
+	//#define PID_DRIVE_ERROR_ENCODER
+	#define PID_DRIVE_ERROR_GYRO
+
+	// handles gyro facing fwd (-1) or bwd (1)
+  #define PID_DRIVE_ERROR_GYRO_SIGN 1
+
+  //-------------------------------------------------------------------------------------------
+	// Used in drive control to ramp power smoothly ... select one or none
+	//
+	//#define USE_LINEAR_POWER_RAMP
+	#define USE_COSINE_CURVE_POWER_RAMP
+
+  //-------------------------------------------------------------------------------------------
+	// Turn control method setting ... select one and only one!
+	//
+  #define ENABLE_GYRO_GRADIENT_PWR_TURN_CONTROL
+  //#define ENABLE_GYRO_PID_TURN_CONTROL
+  //#define ENABLE_ENCODER_TURN_CONTROL
+
+  //-------------------------------------------------------------------------------------------
+	// Select one of the following as the integration method used to determine angular displacement
+  //
+  //#define GYRO_USE_DEBIASED_ROT_RATE
+  //#define GYRO_USE_WEIGHTED_AVG_ROT_RATE
+  #define GYRO_USE_TRAPEZOIDAL_APPROX
+
+  //#define ENABLE_DRIVE_STALL_PROTECTION
+
+  //#define READ_RAW_DRIVE_ENCODER_VALUES
+  #define USE_DRIVE_ENCODER_SPIKE_PROTECTION
+
+  //-------------------------------------------------------------------------------------------
+	// Alerts for various subsystems
+	// ... unless the flag has a value such as ALERTS_DEFAULT_STATE_ON, just comment in or out to enable/disable
+  #define ALERTS_DEFAULT_STATE_ON true // set to true or false
+  #define ENABLE_COLLECTION_ALERTS
+  #define ENABLE_PAYLOAD_ALERTS
+  //#define ENABLE_SPECIAL_RESOURCE_ALERT
+
+  //-------------------------------------------------------------------------------------------
+  // Minimum required battery voltages
+  //
+  #define MIN_REQ_EXT_BATTERY_VOLTAGE 12800
+  #define MIN_REQ_NXT_BATTERY_VOLTAGE 7000
+
+  //-------------------------------------------------------------------------------------------
+  // Encoder task settings...
+  //
+  #define ENCODER_TASK_SAMPLE_RATE 10
+  #define LEFT_ENCODER_MOTOR  DriveLeft
+  #define RIGHT_ENCODER_MOTOR DriveRight
+
+  //-------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------
+	// Sensor init and access macros
+	// ...the read accelerometer function does not return a value but takes the storage variables by references
+	// ...all the others return the sensor value
+  //
+	#define SENSOR_TASK_SAMPLE_RATE 5
+
+  //-------------------------------------------------------------------------------------------
+  // Sensor access and init ... these do not generally change ... enabled or disabled with
+	// the sensor usage flags found in TeamConfig.h
+  //
+	// To activate a sensor:
+	//	1) add the sensor to the pragma list via the Motors and Sensors Setup wizard.
+	//		 * If the sensor is on the brick you may name it whatever you want...
+	// 		 * If the sensor is out on a SMUX, you must use specific sensor access name:
+	//					msensor_<NXT port>_<SMUX port>
+	//					where <NXT port> is S1 for port 1 or S4 for port 4
+	//					and <SMUX port> is 1 for port 1 or 3 for port 3
+	//					Example: SMUX connected to NXT port 2, sensor on SMUX port 4: msensor_S2_3
+	//		 * The sensor types are:
+	//					- Any sensor on a SMUX: sensorI2CCustom
+	//					- Otherwise if directly plugged into the NXT:
+	//							+ Gyro: sensorAnalogInactive
+	//				  		+ IR: sensorI2CCustom
+	//				  		+ Accel: sensorI2CCustom
+	//							+ Mag: sensorAnalogInactive
+	//							+ US: sensorI2CCustom
+	//
+	//	2) Set the sensor name below.
+	//		 * Example: adding gyro named GyroSensor ... set the GYRO #define value to GyroSensor
+	//
+	//	3) Uncomment the appropriate "using" #define in TeamConfig.h
+	//
+
+	// tested sensorAnalogInactive
+	#ifdef USING_GYRO
+		#define GYRO     GyroSensor
+	  #define GYRO_LOC ON_BRICK // ON_BRICK or ON_SMUX
+	  #define InitGYRO_BRICK() { }
+	  #define InitGYRO_SMUX()  { }
+	  #define InitGYRO()       InitGYRO_BRICK()
+	  #define ReadGYRO()       SensorValue[GyroSensor]
+	#else
+		#define GYRO     0
+	  #define GYRO_LOC NOT_USED
+	  #define InitGYRO_BRICK()  { }
+	  #define InitGYRO_SMUX()   { }
+	  #define InitGYRO()        { }
+	  #define ReadGYRO()    		0
+	#endif
+
+	// tested sensorI2CCustom
+	#ifdef USING_IR1
+		#define IR1 IRsensor
+		#define InitIR1() { while (HTIRS2setDSPMode(IR1, DSP_1200) == false); }
+		#define ReadIR1() HTIRS2readACDir(IR1)
+	#else
+		#define IR1 0
+		#define ReadIR1() 0
+		#define InitIR1() { }
+	#endif
+
+	// tested sensorI2CCustom
+	#ifdef USING_IR2
+		#define IR2 ?
+		#define InitIR2() { while (HTIRS2setDSPMode(IR2, DSP_1200) == false); }
+		#define ReadIR2() HTIRS2readACDir(IR1)
+	#else
+		#define IR2 0
+		#define ReadIR2() 0
+		#define InitIR2() { }
+	#endif
+
+	// tested sensorI2CCustom
+	#ifdef USING_ACCEL
+		#define ACCEL ?
+		#define InitAccel() {  }
+		#define ReadAccel() { HTACreadAllAxes(ACCEL, _nAccelSensorXValue, _nAccelSensorYValue,_nAccelSensorZValue); }
+	#else
+		#define ACCEL 0
+		#define InitAccel() {  }
+		#define ReadAccel() { }
+	#endif
+
+	// tested sensorAnalogInactive
+	#ifdef USING_MAG
+		#define MAG ?
+		#define InitMAG() { HTMAGstartCal(MAG); }
+	  #define ReadMAG() HTMAGreadVal(MAG)
+
+	#else
+		#define MAG 0
+		#define InitMAG() {  }
+		#define ReadMAG() 0
+	#endif
+
+	// tested sensorI2CCustom
+	#ifdef USING_US1
+		#define US1 ?
+		#define InitUS1() {  }
+		#define ReadUS1() USreadDist(US1)
+
+	#else
+		#define US1 0
+		#define InitUS1() {  }
+		#define ReadUS1() 0
+	#endif
+
+	// tested sensorI2CCustom
+	#ifdef USING_US2
+		#define US2 ?
+		#define InitUS2() {  }
+		#define ReadUS2() USreadDist(US2)
+
+	#else
+		#define US2 0
+		#define InitUS2() {  }
+		#define ReadUS2() 0
+	#endif
+
+  //-------------------------------------------------------------------------------------------
+  // Basic drive settings
+  //
+	#define VOLTAGE_ADJUST .25
+	#define BASE_VOLTAGE   12.7
+
+  //-------------------------------------------------------------------------------------------
+	// Teleop drive settings
+	//
+	#define DRIVE_HALF_SPEED_SCALE_FACTOR   (0.33)
+
+	#define DRIVE_STRAIGHT_FWD_PWR   50
+	#define DRIVE_STRAIGHT_REV_PWR  -50
+
+  #define DRIVE_SPIN_PWR  100
+
+	//-------------------------------------------------------------------------------------------
+  // Encoder spike protection settings...
+	//
+	#define MAX_VALID_ENCODER_DELTA (1.30 * 35 * ENCODER_TASK_SAMPLE_RATE) // 152RPM -> 3.648 encoder ticks/ms with 30% buffer
+
+  //-------------------------------------------------------------------------------------------
+  // Encoder controlled driving forward settings...
+	//
+	#define DRIVE_GEAR_RATIO               (1.0/1.0) // motor:wheel
+	#define DRIVE_WHEEL_DIAM               2.94
+	#define DRIVE_WHEEL_CIRC               (DRIVE_WHEEL_DIAM * PI)
+	#define BASE_ENCODER_TICK_1_REV        1440.0
+	#define DRIVE_ENCODER_TICK_1_REV       (BASE_ENCODER_TICK_1_REV / DRIVE_GEAR_RATIO)
+	#define TILE_LEN_IN_INCHES             24.0
+	#define NUM_DRIVE_WHEEL_ROTS_1_TILE    (TILE_LEN_IN_INCHES / DRIVE_WHEEL_CIRC)
+	#define NUM_DRIVE_WHEEL_ENCODER_1_TILE (NUM_DRIVE_WHEEL_ROTS_1_TILE * DRIVE_ENCODER_TICK_1_REV)
+
+	#define ONE_WAVEY_SQUARE_ENCODER_COUNT 3400 // encoder ticks 1 corrogated square (starting from center of corrogated square)
+  //#define ONE_SQUARE_ENCODER_COUNT       (NUM_DRIVE_WHEEL_ENCODER_1_TILE) // ...regular foam tile (was 2750)
+
+	// IN BOTH HEADER FILES FROM 4590 CUSTOMIZATION
+	//#define ONE_SQUARE_ENCODER_COUNT         (NUM_DRIVE_WHEEL_ENCODER_1_TILE-120)
+	#define ENCODER_DRIVE_LEFT_PWR  75
+	#define ENCODER_DRIVE_RIGHT_PWR 77
+
+  //-------------------------------------------------------------------------------------------
+  // Encoder counts for turning (not used with PID which uses the gyro)
+	//
+	#define ENCODER_CLOCKWISE90_COUNT        1800 // 1850
+	#define ENCODER_COUNTERCLOCKWISE90_COUNT 1650
+  #define ENCODER_TURN_SPEED 45
+  #define ENCODER_TURN_MIN_PWR    25
+  #define ENCODER_TURN_MAX_PWR    60
+
+  //-------------------------------------------------------------------------------------------
+  // PID control settings...
+	//
+	#define DRIVE_ENCODER_Kp .1  // (was 1.5) PID drive control can use either the encoder or the gyro...
+	#define DRIVE_ENCODER_Ki 0
+	#define DRIVE_ENCODER_Kd 0
+
+	#define DRIVE_GYRO_Kp    10.0  // PID drive control can use either the encoder or the gyro...
+	#define DRIVE_GYRO_Ki    0
+	#define DRIVE_GYRO_Kd    0
+
+	#define DRIVE_PID_BASE_PWR 50 // base power in PID drive control
+	#define DRIVE_PID_MIN_PWR  13 // minimum power in PID drive control
+	#define DRIVE_PID_MIN_ADJ  1  // min power usable in PID drive control
+	#define DRIVE_PID_MAX_ADJ  42 // max power usable in PID drive control
+	#define DRIVE_PID_RAMP_DOWN_TICKS     100 // power ramp down start distance (in encoder ticks)
+
+  //-------------------------------------------------------------------------------------------
+  // following control stall timeouts for PID drive control
+	//
+	#define DRIVE_PID_TIME_SLOPE -100         // determine max time for 60% pwr (MSECS_ONE_SQUARE), calculate max time for 10% pwr
+	#define DRIVE_PID_TIME_Y_INTERCEPT 7500   // this gives slope...now use y=mx+b and one of the pts to determine b.
+                                            // example: 60% pwr, 1500ms (60, 1500) and 10% pwr, 9000ms (10, 9000)
+  //-------------------------------------------------------------------------------------------
+  // following control power ramping when using cosine curve
+	//
+	#define COS_PWR_RAMP_AMPLITUDE 30.00 // increasing makes ramp up and down steeper
+	#define COS_PWR_RAMP_EXPONENT   6.00 // reducing slightly makes ramp up steeper but doesn't appreciably affect ramp down
+	#define COS_PWR_RAMP_MIN_CLIP   0.50 // offset added to x^2 * cos() function ... establishes minimum power
+	#define COS_PWR_RAMP_MAX_CLIP   1.00 // max power ... output is clipped to this
+
+	#define TURN_Kp 1.0        // .6
+	#define TURN_Ki .02        // .008
+	#define TURN_Kd 20         // 0
+
+	#define TURN_PID_MIN_PWR 0          // minimum power to use in PID controlled turn
+	#define TURN_PID_MAX_PWR 75         // maximum power to use in PID controlled turn
+	#define TURN_PID_ANGLE_TOLERANCE .5 // how close we need to be to call it good...
+
+  //-------------------------------------------------------------------------------------------
+  // Gyro turn settings...
+	//
+  #define GYRO_TURN_MIN_PWR    35 // 30  // used in gyro based gradient power turns...
+  #define GYRO_TURN_MAX_PWR    50 // 45
+  #define GYRO_CLOCKWISE90_TURN_GOAL         90
+  #define GYRO_COUNTERCLOCKWISE90_TURN_GOAL -90
+
+  //-------------------------------------------------------------------------------------------
+	// Stall protection settings...
+	//  ... simple timeouts on basic movement actions such as drive X tiles or turn 90 degrees
+	//  ... these are based on tested averages
+	//  ... these provide a "safe" time buffer for each action by multiplying the tested average
+  //
+	#define MSECS_ONE_SQUARE       1.85 * TESTED_MSECS_ONE_SQUARE
+	#define MSECS_90_DEGREES       2.5 * TESTED_MSECS_90_DEGREES
+	#define MSECS_1_DEGREE         (MSECS_90_DEGREES/90 + 1)
+
+  #define TESTED_MSECS_ONE_SQUARE 810   // mSecs per square (2') seen on average during testing (autonomous driving straight)
+  #define TESTED_MSECS_90_DEGREES 2000  // mSecs per 90 degree turn seen on average during testing (autonomous)
+  #define DRIVE_RAMP_UP_DUR 250         // sufficient time to ensure drive system is rotating at normal speed
+  #define MSECS_TO_HOLD_STALL 50        // number of mSecs to hold stall flag true
+  #define EXPECTED_TICKS_SCALAR .75     // percentage of actual/tested ticks per sec...used to determine expected for "real" stall protection
+
+  #define TESTED_SECS_ONE_SQUARE  ((float)TESTED_MSECS_ONE_SQUARE / 1000)
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//
+	// GAME SPECIFIC VALUES - these will change from year to year
+	//
+
+  //-------------------------------------------------------------------------------------------
+	// Controller mappings for driver (joystick 1)
+	//    LT:       Claw
+	//    LB:       Turbo (full) Power Drive ... normal is 1/2 power
+	//    RT:       Ball Collection Reverse
+	//    RB:       Ball Collection Forward
+	//    LJoy:     Left Drive Train
+	//    RJoy:     Right Drive Train
+	//    DPad:     unused
+	//    A:        Drive straight backwards
+	//    B:        unused
+	//    X:        unused
+	//    Y:        Drive straight forwards
+	//    Start:    unused
+	//
+	#define BTN_DRIVE_TURBO_PWR   BtnLB
+	#define BTN_BALL_COLLECT_FWD  BtnRB
+	#define BTN_BALL_COLLECT_REV  BtnRT
+
+  #define BTN_CLAW_DOWN         BtnLT
+
+  #define BTN_DRIVE_STRAIGHT_FWD   BtnY
+  #define BTN_DRIVE_STRAIGHT_REV   BtnA
+
+  #define BTN_DRIVE_SPIN_LEFT      BtnX
+  #define BTN_DRIVE_SPIN_RIGHT     BtnB
+
+  //-------------------------------------------------------------------------------------------
+	// Controller mappings for payload operator (joystick 2)
+	//    LT:       Arm Preset Ball Height
+	//    LB:       Arm Preset Full Down
+	//    RT:       Arm Preset Full Up
+	//    RB:       Arm Preset Crate Rotation Height
+	//    LJoy:     Manual Arm Lift
+	//    RJoy:     Manual Arm Lift
+	//    DPad:     Modifier Button for Crate Rotation
+	//    A:        Rotate 90/Rotate 5
+	//    B:        Crate Grip Open
+	//    X:        Crate Grip Grab
+	//    Y:        Rotate -90/Rotate -5
+	//    Start:    Dispense Ball From Hopper
+	//    Back:     Crate Lift Encoder Reset
+	//
+	#define BTN_CRATE_GRIP_OPEN    BtnX
+	#define BTN_CRATE_GRIP_HOLD    BtnB
+	#define BTN_CRATE_ROTATE_FWD   BtnY
+	#define BTN_CRATE_ROTATE_REV   BtnA
+
+  #define BTN_CRATE_ALIGN_DOWN   BtnLT
+
+	//#define BTN_CRATE_LIFT_TO_BALL    BtnLT
+	#define BTN_CRATE_LIFT_TO_GRAB    BtnLB
+	#define BTN_CRATE_LIFT_TO_CHIMNEY BtnRT
+	#define BTN_CRATE_LIFT_TO_ROTATE  BtnRB
+
+  #define BTN_CRATE_LIFT_RESET   BtnBACK
+  #define BTN_BALL_DISPENSE      BtnSTART
+  #define JOY_CRATE_LIFT_CONTROL joystick.joy2_y1
+  #define JOY_SCISSOR_CONTROL    joystick.joy2_y2
+
+  //-------------------------------------------------------------------------------------------
+	// Scissor lift settings
+	//
+	#define SCISSOR_FULL_DOWN   500
+	//#define SCISSOR_FULL_UP     76000
+	#define SCISSOR_FULL_UP     44500
+
+  #define SCISSOR_DEFAULT_POWER 100
+
+  #define SCISSOR_LAB_BENCH_HEIGHT 32000
+  #define SCISSOR_NO_LIMIT         9999999999
+
+  //-------------------------------------------------------------------------------------------
+	// Chimney latch control
+	//
+	#define CHIMNEY_LATCH_OPEN_POS     0
+	#define CHIMNEY_LATCH_CLOSED_POS 138
+
+  #define CHIMNEY_LATCH_MOVE_MSECS 300
+
+  //-------------------------------------------------------------------------------------------
+	// Crate claw positions
+	//
+	#define CLAW_UP_POS         0
+	#define CLAW_DOWN_POS       170
+
+  //-------------------------------------------------------------------------------------------
+	// Crate aligner positions
+	//
+	//#define CRATE_ALIGN_UP_POS         130
+	//#define CRATE_ALIGN_DOWN_POS       90
+
+	//-------------------------------------------------------------------------------------------
+	// Ball dispenser positions
+	//
+	//  The time for bridge moving down includes time for the ball to roll down the bridge
+	//
+	#define BALL_DISPENSE_UP_POS    255
+	#define BALL_DISPENSE_DOWN_POS  120
+
+  #define BRIDGE_MOVING_DOWN_MSEC 1700
+  #define BRIDGE_MOVING_UP_MSEC   400
+
+  //-------------------------------------------------------------------------------------------
+	// Crate Arm Elevation settings
+	//
+	#define CRATE_LIFT_GRAB_ENCODER     0
+	#define CRATE_LIFT_BALL_ENCODER     850
+	#define CRATE_LIFT_ROTATE_ENCODER   2500
+	#define CRATE_LIFT_CHIMNEY_ENCODER  10510
+	// chimney was 10150
+
+  #define CRATE_LIFT_UPPER_LIMIT      CRATE_LIFT_CHIMNEY_ENCODER
+  #define CRATE_LIFT_LOWER_LIMIT      CRATE_LIFT_GRAB_ENCODER
+  #define CRATE_LIFT_NO_LIMIT         -1
+
+  #define CRATE_LIFT_ENCODER_SKID 300
+
+	#define CRATE_LIFT_UP_POWER      100
+	#define CRATE_LIFT_DWN_POWER    -100
+
+  #define CRATE_LIFT_PRESET_POWER 100
+
+  //-------------------------------------------------------------------------------------------
+	// Crate grab positions
+	//
+	#define CRATE_GRIP_AUTONOMOUS_POS 118
+	#define CRATE_GRIP_OPEN_POS        98
+	#define CRATE_GRIP_CRATE_POS       40
+
+  //-------------------------------------------------------------------------------------------
+	// Crate rotation NXT servo settings
+	//
+	#define CRATE_ROTATE_POWER      50
+
+	#define CRATE_ROTATE_DEFAULT_TURN    -76
+	#define CRATE_ROTATE_SMALL_TURN     (-CRATE_ROTATE_ENCODER_SKID - 5)
+
+  #define CRATE_ROTATE_TO_BALL_LOAD   (CRATE_ROTATE_SMALL_TURN * 4)
+  #define CRATE_ROTATE_FROM_BALL_LOAD (-CRATE_ROTATE_SMALL_TURN * 3)
+
+  #define CRATE_ROTATE_ENCODER_SKID 5
+
+  #define CRATE_ROT_TIMEOUT_MSECS   1200
+
+#endif // COMMON_CONFIG_H
