@@ -60,10 +60,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // These are the only functions that are allowed to directly access the motors themselves
 //
-#define CurrMotorPwr(nDriveSide)     ( (nDriveSide == LEFT_SIDE) ? motor[LRD] : motor[RRD] )
+#define CurrMotorPwr(nDriveSide)     ( (nDriveSide == LEFT_SIDE) ? motor[LeftDrive] : motor[RightDrive] )
 
-#define LeftRawDriveEncoderVal   nMotorEncoder[LFD]
-#define RightRawDriveEncoderVal  nMotorEncoder[RFD]
+#define LeftRawDriveEncoderVal   nMotorEncoder[LeftDrive]
+#define RightRawDriveEncoderVal  nMotorEncoder[RightDrive]
 
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,14 +111,12 @@ void ApplyMotorPower(tDriveSide nDriveSide, int nMotorPower)
 	if ( nDriveSide == LEFT_SIDE )
 	{
 	  //motor[DriveLeft] = nMotorPower;
-		motor[LFD] = -nMotorPower;
-		motor[LRD] = -nMotorPower;
+		motor[LeftDrive] = -nMotorPower;
 	}
 	else if ( nDriveSide == RIGHT_SIDE )
 	{
 	  //motor[DriveRight] = nMotorPower;
-		motor[RFD] = nMotorPower;
-		motor[RRD] = nMotorPower;
+		motor[RightDrive] = nMotorPower;
 	}
 }
 

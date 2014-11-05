@@ -18,7 +18,7 @@
   // Sensor usage
   //
   #define USING_GYRO
-	//#define USING_IR1
+	#define USING_IR1
 	//#define USING_IR2
 	//#define USING_ACCEL
 	//#define USING_MAG
