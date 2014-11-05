@@ -1,0 +1,178 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Module: GlobalDefines.h
+//
+// Description:
+//        Contains all #defines, typedefs, etc. shared throughout the code
+//
+// Usage:
+//        none, no code
+//
+// Motor Use:
+//        none
+//
+// Sensor Use:
+//        none
+//
+// Timer Use:
+//        none
+//
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#pragma systemFile            // this eliminates warning for "unreferenced" functions
+
+#ifndef GLOBAL_DEFINES_H
+#define GLOBAL_DEFINES_H
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// #defines
+//
+#define minf(x1, x2) ((x1 < x2) ? x1 : x2) // return the smaller of the two
+#define maxf(x1, x2) ((x1 > x2) ? x1 : x2) // return the larger of the two
+#define clipf(x, min, max) ( (x < min) ? min : ((x > max) ? max : x) ) // return x within the range, min or max if out
+
+#define limit2Range(x, min, max) ( (x >= 0) ? clipf(x, min, max) : clipf(x, -max, -min) ) // account for negative value
+
+// provided for task safety as RobotC functions are non-reentrant.
+#define absValue(x) ( x >= 0 ? x : -x )
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Make using the joystick easier...logical button number and tophat position number to name mappings
+//
+// Joystick button number to name mappings
+#define joy1Btn_X()  joy1Btn(1)
+#define joy1Btn_A()  joy1Btn(2)
+#define joy1Btn_B()  joy1Btn(3)
+#define joy1Btn_Y()  joy1Btn(4)
+#define joy1Btn_LB() joy1Btn(5)
+#define joy1Btn_RB() joy1Btn(6)
+#define joy1Btn_LT() joy1Btn(7)
+#define joy1Btn_RT() joy1Btn(8)
+#define joy1Btn_BACK()  joy1Btn(9)
+#define joy1Btn_START() joy1Btn(10)
+
+#define joy2Btn_X()  joy2Btn(1)
+#define joy2Btn_A()  joy2Btn(2)
+#define joy2Btn_B()  joy2Btn(3)
+#define joy2Btn_Y()  joy2Btn(4)
+#define joy2Btn_LB() joy2Btn(5)
+#define joy2Btn_RB() joy2Btn(6)
+#define joy2Btn_LT() joy2Btn(7)
+#define joy2Btn_RT() joy2Btn(8)
+#define joy2Btn_BACK()  joy2Btn(9)
+#define joy2Btn_START() joy2Btn(10)
+
+// Joystick tophat position number to name mappings
+#define joy1TopHat_N()  (joystick.joy1_TopHat == 0)
+#define joy1TopHat_NE() (joystick.joy1_TopHat == 1)
+#define joy1TopHat_E()  (joystick.joy1_TopHat == 2)
+#define joy1TopHat_SE() (joystick.joy1_TopHat == 3)
+#define joy1TopHat_S()  (joystick.joy1_TopHat == 4)
+#define joy1TopHat_SW() (joystick.joy1_TopHat == 5)
+#define joy1TopHat_W()  (joystick.joy1_TopHat == 6)
+#define joy1TopHat_NW() (joystick.joy1_TopHat == 7)
+
+#define joy2TopHat_N()  (joystick.joy2_TopHat == 0)
+#define joy2TopHat_NE() (joystick.joy2_TopHat == 1)
+#define joy2TopHat_E()  (joystick.joy2_TopHat == 2)
+#define joy2TopHat_SE() (joystick.joy2_TopHat == 3)
+#define joy2TopHat_S()  (joystick.joy2_TopHat == 4)
+#define joy2TopHat_SW() (joystick.joy2_TopHat == 5)
+#define joy2TopHat_W()  (joystick.joy2_TopHat == 6)
+#define joy2TopHat_NW() (joystick.joy2_TopHat == 7)
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Private Global Variables
+//
+
+bool _bAbortAutonomous = false;
+bool _bConnectedToComputer = true;
+bool _bCollectionFailure = false;
+bool _bPayloadAtLimit1 = false;
+bool _bPayloadAtLimit2 = false;
+bool _bSpecialResourceDetected = false;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// Public Function Declarations
+//
+#define SetAbortAutonomous(bAbortFlag) { _bAbortAutonomous = bAbortFlag; }
+#define AutonomousIsAborted()          ( _bAbortAutonomous )
+
+#define HaveFCSconnection()              ( _bConnectedToComputer )
+#define SetHaveFCSconnection(bConnected) _bConnectedToComputer=bConnected
+
+#define SetCollectionFailure(bCollectionFailureFlag)    { _bCollectionFailure = bCollectionFailureFlag; }
+#define CollectionFailure()                             ( _bCollectionFailure )
+
+#define SetPayloadAtLimit1(bPayloadAtLimit1Flag)    { _bPayloadAtLimit1 = bPayloadAtLimit1Flag; }
+#define PayloadIsAtLimit1()                         ( _bPayloadAtLimit1 )
+
+#define SetPayloadAtLimit2(bPayloadAtLimit2Flag)   { _bPayloadAtLimit2 = bPayloadAtLimit2Flag; }
+#define PayloadIsAtLimit2()                        ( _bPayloadAtLimit2 )
+
+#define SetSpecialResourceDetected(bSpecialResourceDetectedFlag)   { _bSpecialResourceDetected = bSpecialResourceDetectedFlag; }
+#define SpecialResourceDetected()                                  ( _bSpecialResourceDetected )
+
+// Identify which side of the bot is to be used
+typedef enum
+{
+  LEFT_SIDE,
+  RIGHT_SIDE
+
+} tDriveSide;
+
+// Calculate time elapsed between the indicated time...account for timer rollover
+long CalcTimeDeltaWithRollOver(long nCurrTime, long nPrevTime)
+{
+  long delta = nCurrTime - nPrevTime;
+  if ( delta < 0 )
+    delta += 2147483647; // signed long max
+  return delta;
+}
+
+// Poor man's timers ... we can effectively has as many of these as we want
+// As long as these values are treated as longs we should be okay with rollover.
+// Using the CalcTimeDeltaWithRollOver() function which will attempt to handle rollover.
+//
+// nPgmTimer is a long so max value is 2,147,483,647 msecs which is 24.86 days ... we should
+// ***NEVER*** see a rollover here!
+//
+// Preference is to implement the two functions as actual functions rather than #define macros
+// because this will provide compile-time argument type-checking.  Unfortunately we tend to
+// hover very close to the 160 function limit in the autonomous template.
+//
+// Will implement as functions and if we hit the 160 function limit, replace w/the macro version.
+//
+typedef enum
+{
+  CT1      = 0,
+  CT2      = 1,
+  CT3      = 2,
+  CT4      = 3,
+  CTstall  = 4,
+  numCustomTimers
+} tCustomTimer;
+
+long _CustomTimerInfo[numCustomTimers];
+
+//#define CustomTimer(t) ( CalcTimeDeltaWithRollOver(nPgmTime, _CustomTimerInfo[t]) )
+//#define ClearCustomTimer(t) { _CustomTimerInfo[t] = nPgmTime; }
+
+void ClearCustomTimer(tCustomTimer t)
+{
+  _CustomTimerInfo[t] = nPgmTime;
+}
+
+long CustomTimer(tCustomTimer t)
+{
+  return CalcTimeDeltaWithRollOver(nPgmTime, _CustomTimerInfo[t]);
+}
+
+#endif // GLOBAL_DEFINES_H
