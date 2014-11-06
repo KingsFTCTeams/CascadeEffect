@@ -32,6 +32,11 @@
 	//
 	// GAME SPECIFIC VALUES - these will change from year to year
 	//
+  // Controller Mappings for Payload Operator (joystick 2)
+  //		LT: Collector in
+  //    RT: Collector out
+  #define BTN_COLLECTOR_IN  joy2Btn(BtnLT)
+  #define BTN_COLLECTOR_OUT joy2Btn(BtnRT)
 
   //-------------------------------------------------------------------------------------------
 	// Controller mappings for driver (joystick 1)

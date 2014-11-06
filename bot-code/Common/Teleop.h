@@ -15,6 +15,7 @@
 //#include "Drivers/JoystickDriverWithLostFCSCheck.h"
 //#include "Drivers/JoystickDriverWithLostFCSCheck2012.h"
 #include "Includes/MotorControl.h"
+#include "CollectorControl.h"
 
 //function definitions
 void InitializeRobot();
@@ -37,6 +38,7 @@ task main() {
   while (true) {
     getJoystickSettings(joystick);
     SetDrive();
+    UpdateCollector();
     wait1Msec(5);
   }
 }
