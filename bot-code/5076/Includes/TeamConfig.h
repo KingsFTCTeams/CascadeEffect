@@ -31,12 +31,23 @@
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	//
 	// GAME SPECIFIC VALUES - these will change from year to year
-	//
+	//----------------------------------------------------------------------------------------------
   // Controller Mappings for Payload Operator (joystick 2)
   //		LT: Collector in
   //    RT: Collector out
-  #define BTN_COLLECTOR_IN  joy2Btn(BtnLT)
-  #define BTN_COLLECTOR_OUT joy2Btn(BtnRT)
+  //		A: Lift to Collect
+  //    B: Lift to Low
+  //    X: Lift to Mid
+  //    Y: Lift to High
+  //
+  #define BTN_COLLECTOR_IN  BtnLT
+  #define BTN_COLLECTOR_OUT BtnRT
+  #define BTN_LIFT_COLLECT  BtnA
+  #define BTN_LIFT_LOW			BtnB
+	#define BTN_LIFT_MID		  BtnX
+	#define BTN_LIFT_HIGH     BtnY
+  #define BTN_LIFT_CENTER   BtnLB
+
 
   //-------------------------------------------------------------------------------------------
 	// Controller mappings for driver (joystick 1)

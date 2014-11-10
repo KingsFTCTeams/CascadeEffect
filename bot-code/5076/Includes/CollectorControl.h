@@ -3,5 +3,5 @@
 #define NO_POWER 							 0
 
 void UpdateCollector() {
-	motor[Collector] = (BTN_COLLECTOR_IN) ? FORWARD_COLLECT_POWER : ((BTN_COLLECTOR_OUT) ? REVERSE_COLLECT_POWER : NO_POWER);
+	motor[Collector] = (joy2Btn(BTN_COLLECTOR_IN)) ? FORWARD_COLLECT_POWER : ((joy2Btn(BTN_COLLECTOR_OUT)) ? REVERSE_COLLECT_POWER : NO_POWER);
 }

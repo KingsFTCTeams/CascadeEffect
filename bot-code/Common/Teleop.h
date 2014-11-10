@@ -16,6 +16,8 @@
 //#include "Drivers/JoystickDriverWithLostFCSCheck2012.h"
 #include "Includes/MotorControl.h"
 #include "CollectorControl.h"
+#include "Includes/LiftControlConfig.h"
+#include "Includes/LiftControl.h"
 
 //function definitions
 void InitializeRobot();
