@@ -1,9 +1,18 @@
-static bool liftMoving = false;
-static int targetLoc = 0;
-static int currPos = nMotorEncoder[Collector];
+bool liftMoving = false;
+int targetLoc = 0;
+
+bool isLiftMoving() {
+	return liftMoving;
+}
+
+void setTarget(int target) {
+	if(target > LIFT_COLLECT_ENCODER && target < LIFT_CENTER_ENCODER && !liftMoving) {
+		targetLoc = target;
+	}
+}
 
 void UpdateLiftPos() {
-	if(liftMoving) {
+	if(isLiftMoving()) {
 		int currPos = nMotorEncoder[Collector];
 		int error = targetLoc - currPos;
 		if(abs(error) > LIFT_TARGET_ERROR) {
@@ -17,22 +26,35 @@ void UpdateLiftPos() {
 	else {
 		int oldLoc = targetLoc;
 		if(joy2Btn(BTN_LIFT_COLLECT)) {
-			targetLoc = LIFT_COLLECT_ENCODER;
+			setTarget(LIFT_COLLECT_ENCODER);
 		}
 		else if(joy2Btn(BTN_LIFT_HIGH)) {
-			targetLoc = LIFT_HIGH_ENCODER;
+			setTarget(LIFT_HIGH_ENCODER);
 		}
 		else if(joy2Btn(BTN_LIFT_CENTER)) {
-			targetLoc = LIFT_CENTER_ENCODER;
+			setTarget(LIFT_CENTER_ENCODER);
 		}
 		else if(joy2Btn(BTN_LIFT_LOW)) {
-			targetLoc = LIFT_LOW_ENCODER;
+			setTarget(LIFT_LOW_ENCODER);
 		}
 		else if(joy2Btn(BTN_LIFT_MID)) {
-			targetLoc = LIFT_MID_ENCODER;
+			setTarget(LIFT_MID_ENCODER);
 		}
 		if(targetLoc != oldLoc) {
 			liftMoving = true;
 		}
 	}
+}
+
+void ManualLiftControl() {
+	if(abs(joystick.joy2_y1) > 10) {
+		motor[Lift] = joystick.joy2_y1;
+	}
+	else {
+		motor[Lift] = 0;
+	}
+}
+
+int CurrLiftPos() {
+	return nMotorEncoder[Lift];
 }

@@ -15,6 +15,7 @@
 //#include "Drivers/JoystickDriverWithLostFCSCheck.h"
 //#include "Drivers/JoystickDriverWithLostFCSCheck2012.h"
 #include "Includes/MotorControl.h"
+#include "Includes/CollectorConfig.h"
 #include "CollectorControl.h"
 #include "Includes/LiftControlConfig.h"
 #include "Includes/LiftControl.h"
@@ -40,7 +41,11 @@ task main() {
   while (true) {
     getJoystickSettings(joystick);
     SetDrive();
-    UpdateCollector();
+    ManualLiftControl();
+    nxtDisplayCenteredTextLine(3, "Lift: %d", CurrLiftPos());
+    //UpdateCollector();
+    //UpdateLiftPos();
+    //UpdateServo();
     wait1Msec(5);
   }
 }
@@ -80,13 +85,17 @@ void SetDrive() {
   }
 
   // Normal mode is "half power" mode ... overridden with TURBO button
-  fLeftDrivePower  *= DRIVE_HALF_SPEED_SCALE_FACTOR;
-  fRightDrivePower *= DRIVE_HALF_SPEED_SCALE_FACTOR;
+  //fLeftDrivePower  *= DRIVE_HALF_SPEED_SCALE_FACTOR;
+  //fRightDrivePower *= DRIVE_HALF_SPEED_SCALE_FACTOR;
 
   if (joy1Btn(BTN_DRIVE_TURBO_PWR)) {
     // Actually dividing the motor power in half will not necessarily produce half power...
-    fLeftDrivePower  /= DRIVE_HALF_SPEED_SCALE_FACTOR;
-    fRightDrivePower /= DRIVE_HALF_SPEED_SCALE_FACTOR;
+    //fLeftDrivePower  /= DRIVE_HALF_SPEED_SCALE_FACTOR;
+    //fRightDrivePower /= DRIVE_HALF_SPEED_SCALE_FACTOR;
+
+    //Switched. Turbo button is now a half-speed button that applies half power
+  	fLeftDrivePower  *= DRIVE_HALF_SPEED_SCALE_FACTOR;
+  	fRightDrivePower *= DRIVE_HALF_SPEED_SCALE_FACTOR;
   }
 
   if ( tDriveTeamDirectionPreference == FORWARD ) {

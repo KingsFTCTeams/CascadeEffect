@@ -33,25 +33,27 @@
 	// GAME SPECIFIC VALUES - these will change from year to year
 	//----------------------------------------------------------------------------------------------
   // Controller Mappings for Payload Operator (joystick 2)
-  //		LT: Collector in
-  //    RT: Collector out
-  //		A: Lift to Collect
-  //    B: Lift to Low
-  //    X: Lift to Mid
-  //    Y: Lift to High
-  //
+  //		LT: 		Collector in
+  //    RT: 		Collector out
+  //		A:  		Lift to Collect
+  //    B:  		Lift to Low
+  //    X:  		Lift to Mid
+  //    Y:  		Lift to High
+  //		RB: 		Lift to Collect
   #define BTN_COLLECTOR_IN  BtnLT
   #define BTN_COLLECTOR_OUT BtnRT
+
   #define BTN_LIFT_COLLECT  BtnA
   #define BTN_LIFT_LOW			BtnB
 	#define BTN_LIFT_MID		  BtnX
 	#define BTN_LIFT_HIGH     BtnY
-  #define BTN_LIFT_CENTER   BtnLB
+  #define BTN_LIFT_CENTER   BtnRB
+
 
 
   //-------------------------------------------------------------------------------------------
 	// Controller mappings for driver (joystick 1)
-	//    LT:       Claw
+	//    LT:       Servo Control
 	//    LB:       Turbo (full) Power Drive ... normal is 1/2 power
 	//    RT:       Ball Collection Reverse
 	//    RB:       Ball Collection Forward
@@ -68,7 +70,7 @@
 	#define BTN_BALL_COLLECT_FWD  BtnRB
 	#define BTN_BALL_COLLECT_REV  BtnRT
 
-  #define BTN_CLAW_DOWN         BtnLT
+  #define BTN_SERVO         	BtnLT
 
   #define BTN_DRIVE_STRAIGHT_FWD   BtnY
   #define BTN_DRIVE_STRAIGHT_REV   BtnA
