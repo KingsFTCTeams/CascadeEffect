@@ -40,7 +40,7 @@ task main() {
 	//main teleop loop
   while (true) {
     getJoystickSettings(joystick);
-    SetDrive();
+    //SetDrive();
     ManualLiftControl();
     nxtDisplayCenteredTextLine(3, "Lift: %d", CurrLiftPos());
     //UpdateCollector();

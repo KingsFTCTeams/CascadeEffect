@@ -1,9 +1,12 @@
 void Basic_Testing_Auto()
 {
-	//DriveStraight(1, 100);
+	/*//DriveStraight(1, 100);
 	PivotTurn(-90);
 	//DriveStraight(2, 100);
-	PivotTurn(90);
+	PivotTurn(90);*/
+	while(true) {
+		nxtDisplayCenteredBigTextLine(2, "IR: %d", ReadIR1());
+	}
 }
 
 void MiddleDrop_Auto()
