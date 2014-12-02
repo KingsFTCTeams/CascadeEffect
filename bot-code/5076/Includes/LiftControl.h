@@ -13,14 +13,20 @@ void setTarget(int target) {
 
 void UpdateLiftPos() {
 	if(isLiftMoving()) {
-		int currPos = nMotorEncoder[Collector];
-		int error = targetLoc - currPos;
-		if(abs(error) > LIFT_TARGET_ERROR) {
-			motor[Lift] = sgn(error)*LIFT_MOTOR_POWER;
-		}
-		else {
+		if(nMotorEncoder[Lift] <= 0 || nMotorEncoder[Lift] >= 20000) {
 			motor[Lift] = 0;
 			liftMoving = false;
+		}
+		else {
+			int currPos = nMotorEncoder[Collector];
+			int error = targetLoc - currPos;
+			if(abs(error) > LIFT_TARGET_ERROR) {
+				motor[Lift] = sgn(error)*LIFT_MOTOR_POWER;
+			}
+			else {
+				motor[Lift] = 0;
+				liftMoving = false;
+			}
 		}
 	}
 	else {
@@ -47,11 +53,15 @@ void UpdateLiftPos() {
 }
 
 void ManualLiftControl() {
-	if(abs(joystick.joy2_y1) > 10) {
+
+	if(nMotorEncoder[Lift] > 0 && joystick.joy2_y1 < -10) {
+		motor[Lift] = joystick.joy2_y1;
+	}
+	else if(joystick.joy2_y1 > 10 && nMotorEncoder[Lift] < 20000){
 		motor[Lift] = joystick.joy2_y1;
 	}
 	else {
-		motor[Lift] = 0;
+	 motor[Lift] = 0;
 	}
 }
 

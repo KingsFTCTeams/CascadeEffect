@@ -37,15 +37,18 @@ task main() {
 	  eraseDisplay();
 	#endif
 
+  waitForStart();
+
 	//main teleop loop
+	eraseDisplay();
   while (true) {
     getJoystickSettings(joystick);
-    //SetDrive();
+    SetDrive();
     ManualLiftControl();
     nxtDisplayCenteredTextLine(3, "Lift: %d", CurrLiftPos());
-    //UpdateCollector();
+    UpdateCollector();
     //UpdateLiftPos();
-    //UpdateServo();
+    UpdateServo();
     wait1Msec(5);
   }
 }
@@ -53,6 +56,8 @@ task main() {
 /////////////////////////////////////////////////////////////////////
 
 void InitializeRobot() {
+	//bDisplayDiagnostics = false;
+	//nMotorEncoder[Lift] = 0;
   //run any code required to initalize the robot here
 }
 
