@@ -67,10 +67,10 @@
 	//    Start:    unused
 	//
 	#define BTN_DRIVE_TURBO_PWR   BtnLB
-	#define BTN_BALL_COLLECT_FWD  BtnRB
-	#define BTN_BALL_COLLECT_REV  BtnRT
 
-  #define BTN_SERVO         	BtnLT
+
+  #define BTN_SERVO_DOWN         	BtnLT
+  #define BTN_SERVO_UP			      BtnRT
 
   #define BTN_DRIVE_STRAIGHT_FWD   BtnY
   #define BTN_DRIVE_STRAIGHT_REV   BtnA
