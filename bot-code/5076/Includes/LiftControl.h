@@ -6,20 +6,20 @@ bool isLiftMoving() {
 }
 
 void setTarget(int target) {
-	if(target > LIFT_COLLECT_ENCODER && target < LIFT_CENTER_ENCODER && !liftMoving) {
+	if(target >= LIFT_COLLECT_ENCODER && target <= LIFT_CENTER_ENCODER && !liftMoving) {
 		targetLoc = target;
 	}
 }
 
 void UpdateLiftPos() {
 	if(isLiftMoving()) {
-		if(nMotorEncoder[Lift] <= 0 || nMotorEncoder[Lift] >= 19000) { //fix this...prevents the lift from moving initially
+		int currPos = nMotorEncoder[Lift];
+		int error = targetLoc - currPos;
+		if((error < 0 && nMotorEncoder[Lift] <= 0) || (error > 0 && nMotorEncoder[Lift] >= 19000)) {
 			motor[Lift] = 0;
 			liftMoving = false;
 		}
 		else {
-			int currPos = nMotorEncoder[Collector];
-			int error = targetLoc - currPos;
 			if(abs(error) > LIFT_TARGET_ERROR) {
 				motor[Lift] = sgn(error)*LIFT_MOTOR_POWER;
 				nxtDisplayCenteredTextLine(2, "Curr Pos: %d", currPos);
@@ -30,6 +30,7 @@ void UpdateLiftPos() {
 				liftMoving = false;
 			}
 		}
+		nxtDisplayCenteredTextLine(6, "Power: %d", sgn(error)*LIFT_MOTOR_POWER);
 	}
 	else {
 		int oldLoc = targetLoc;
@@ -53,6 +54,7 @@ void UpdateLiftPos() {
 		}
 	}
 	nxtDisplayCenteredTextLine(1, "Target: %d", targetLoc);
+	nxtDisplayCenteredTextLine(4, "Moving: %d", isLiftMoving());
 }
 
 void ManualLiftControl() {
@@ -70,4 +72,8 @@ void ManualLiftControl() {
 
 int CurrLiftPos() {
 	return nMotorEncoder[Lift];
+}
+
+int isLiftMoving() {
+	return liftMoving ? 1 : 0;
 }
