@@ -13,7 +13,7 @@ void setTarget(int target) {
 
 void UpdateLiftPos() {
 	if(isLiftMoving()) {
-		if(nMotorEncoder[Lift] <= 0 || nMotorEncoder[Lift] >= 20000) {
+		if(nMotorEncoder[Lift] <= 0 || nMotorEncoder[Lift] >= 19000) { //fix this...prevents the lift from moving initially
 			motor[Lift] = 0;
 			liftMoving = false;
 		}
@@ -22,6 +22,8 @@ void UpdateLiftPos() {
 			int error = targetLoc - currPos;
 			if(abs(error) > LIFT_TARGET_ERROR) {
 				motor[Lift] = sgn(error)*LIFT_MOTOR_POWER;
+				nxtDisplayCenteredTextLine(2, "Curr Pos: %d", currPos);
+				nxtDisplayCenteredTextLine(3, "Error: %d", error);
 			}
 			else {
 				motor[Lift] = 0;
@@ -50,6 +52,7 @@ void UpdateLiftPos() {
 			liftMoving = true;
 		}
 	}
+	nxtDisplayCenteredTextLine(1, "Target: %d", targetLoc);
 }
 
 void ManualLiftControl() {
