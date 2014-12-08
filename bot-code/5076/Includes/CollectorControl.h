@@ -1,5 +1,5 @@
 bool servoDown = false;
-int goalServoPos = 60;
+int goalServoPos = 75;
 int extendServoPos = 0;
 void UpdateCollector() {
 	motor[Collector] = (joy2Btn(BTN_COLLECTOR_IN)) ? FORWARD_COLLECT_POWER : ((joy2Btn(BTN_COLLECTOR_OUT)) ? REVERSE_COLLECT_POWER : NO_POWER);
@@ -10,7 +10,7 @@ void UpdateServo() {
 		goalServoPos = 225;
 	}
 	else if(joy1Btn(BTN_SERVO_UP) == 1) {
-		goalServoPos = 60;
+		goalServoPos = 75;
 	}
 	servo[LeftGrab] = goalServoPos;
 }
