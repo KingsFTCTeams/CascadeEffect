@@ -20,3 +20,24 @@ void DriveOffRamp()
 	//PivotTurn(-90);
 
 }
+
+void KnockBallsFromGround(){
+	motor[Lift] = 0;
+	DriveStraight(0.8, 50);
+	PivotTurn(-90);
+	DriveStraight(2, 50);
+	PivotTurn(90);
+	DriveStraight(1, 50);
+
+	//from here, find pos for robot to read IR
+	//add cases for each IR position
+
+
+}
+
+//void KnockBallsFromRamp(){
+//}
+//void ScoreIRFromGround(){
+//}
+//void ScoreIRFromRamp(){
+//}

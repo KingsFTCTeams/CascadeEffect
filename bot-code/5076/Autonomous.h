@@ -104,21 +104,21 @@ task main() {
 	{
 		DriveOffRamp();
 	}
-	//else if(Mission == 3)
-	//{
-	//	AwesomeDefensnessright_Auto();
-	//}
+	else if(Mission == 3)
+	{
+		KnockBallsFromGround();
+	}
 	//else if(Mission == 4)
 	//{
-	//	AwesomeDefensnessleft_Auto();
+	//	KnockBallsFromRamp();
 	//}
 	//else if(Mission == 5)
 	//{
-	//	//Middle_Auto_Drop_Left_Opposite();
+	//	ScoreIRFromGround();
 	//}
 	//else if(Mission == 6)
 	//{
-	//	//Basic_Testing_Auto();
+	//	ScoreIRFromRamp();
 	//}
 
 
