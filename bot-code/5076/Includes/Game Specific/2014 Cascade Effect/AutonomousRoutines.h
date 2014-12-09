@@ -22,6 +22,7 @@ void DriveOffRamp()
 }
 
 void KnockBallsFromGround(){
+	nMotorEncoder[Lift] = 0;
 	motor[Lift] = 0;
 	DriveStraight(0.8, 50);
 	PivotTurn(-90);
