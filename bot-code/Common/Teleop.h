@@ -48,6 +48,7 @@ task main() {
     UpdateCollector();
     UpdateLiftPos();
     UpdateServo();
+    UpdateExtention();
     wait1Msec(5);
   }
 }

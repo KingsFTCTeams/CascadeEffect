@@ -10,7 +10,7 @@
 #pragma config(Motor,  mtr_S1_C2_1,     Collector,     tmotorTetrix, openLoop, reversed)
 #pragma config(Motor,  mtr_S1_C2_2,     Lift,          tmotorTetrix, openLoop, reversed, encoder)
 #pragma config(Servo,  srvo_S1_C3_1,    LeftGrab,             tServoStandard)
-#pragma config(Servo,  srvo_S1_C3_2,    servo2,               tServoNone)
+#pragma config(Servo,  srvo_S1_C3_2,    PlatformServo,        tServoStandard)
 #pragma config(Servo,  srvo_S1_C3_3,    servo3,               tServoNone)
 #pragma config(Servo,  srvo_S1_C3_4,    servo4,               tServoNone)
 #pragma config(Servo,  srvo_S1_C3_5,    servo5,               tServoNone)
