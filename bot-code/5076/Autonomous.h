@@ -8,7 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 task main() {
 	int Mission = 1;              // list mission names and numbers here
-	const int nMissionCount = 2;  // set to number of missions...used for menu routine
+	const int nMissionCount = 3;  // set to number of missions...used for menu routine
 	int waitValue = 0;
 
 	InitializeRobot("Autonomous");  // Perform all required initialization sub-routine
@@ -39,11 +39,10 @@ task main() {
 			} else if ( Mission == 2 ) {
 			nxtDisplayCenteredBigTextLine(2, "Mission");
 			nxtDisplayCenteredBigTextLine(4, "OffRamp");
-			} /*else if ( Mission == 3 ) {
+			} else if ( Mission == 3 ) {
 			nxtDisplayCenteredBigTextLine(1, "Mission");
-			nxtDisplayCenteredBigTextLine(3, "Defend R");
-			nxtDisplayCenteredBigTextLine(5, "Awesomly");
-			} else if ( Mission == 4 ) {
+			nxtDisplayCenteredBigTextLine(3, "KnockBallsFromGround");
+			} /*else if ( Mission == 4 ) {
 			nxtDisplayCenteredBigTextLine(1, "Mission");
 			nxtDisplayCenteredBigTextLine(3, "Defend L");
 			nxtDisplayCenteredBigTextLine(5, "Awesomly");
