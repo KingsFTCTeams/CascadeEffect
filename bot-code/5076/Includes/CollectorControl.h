@@ -1,6 +1,6 @@
 bool servoDown = false;
 int goalServoPos = SERVO_STOW_POSIITON;
-int extendServoPos = 0;
+int extendServoPower = 0;
 void UpdateCollector() {
 	motor[Collector] = (joy2Btn(BTN_COLLECTOR_IN)) ? FORWARD_COLLECT_POWER : ((joy2Btn(BTN_COLLECTOR_OUT)) ? REVERSE_COLLECT_POWER : NO_POWER);
 }
@@ -16,11 +16,16 @@ void UpdateServo() {
 }
 
 void UpdateExtention() {
-	if(BTN_PLATFORM_OUT) {      //CHOOSE BUTTON
-		extendServoPos = 225;
-	}
-	else if(BTN_PLATFORM_IN) { //CHOOSE BUTTON
-		extendServoPos = -255;
-	}
-	servo[PlatformServo] = extendServoPos;
+	int joyReadingY = ScaleJoystickInput(joystick.joy2_y2);
+
+	if(joyReadingY > 0){
+		extendServoPower = 255;
+  }
+  else if(joyReadingY < 0){
+  	extendServoPower = 0;
+  }
+  else{
+  	extendServoPower = 127;
+  }
+	servo[PlatformServo] = extendServoPower;
 }
