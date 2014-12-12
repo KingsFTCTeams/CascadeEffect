@@ -63,22 +63,22 @@
 	//    RJoy:     Right Drive Train
 	//    DPad:     unused
 	//    A:        Drive straight backwards
-	//    B:        unused
-	//    X:        unused
+	//    B:        Front servo down
+	//    X:        Front servo up
 	//    Y:        Drive straight forwards
 	//    Start:    unused
 	//
 	#define BTN_DRIVE_TURBO_PWR   BtnLB
 
 
-  #define BTN_SERVO_DOWN         	BtnLT
-  #define BTN_SERVO_UP			      BtnRT
+  #define BTN_SERVO_BACK_DOWN         	BtnLT
+  #define BTN_SERVO_BACK_UP			      BtnRT
 
   #define BTN_DRIVE_STRAIGHT_FWD   BtnY
   #define BTN_DRIVE_STRAIGHT_REV   BtnA
 
-  #define BTN_DRIVE_SPIN_LEFT      BtnX
-  #define BTN_DRIVE_SPIN_RIGHT     BtnB
+  #define BTN_SERVO_FRONT_UP      BtnX
+  #define BTN_SERVO_FRONT_DOWN     BtnB
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

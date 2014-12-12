@@ -82,12 +82,6 @@ void SetDrive() {
   } else if (joy1Btn(BTN_DRIVE_STRAIGHT_REV)) {
     fLeftDrivePower = DRIVE_STRAIGHT_REV_PWR;
     fRightDrivePower = DRIVE_STRAIGHT_REV_PWR;
-  } else if (joy1Btn(BTN_DRIVE_SPIN_LEFT)) {
-    fLeftDrivePower = -DRIVE_SPIN_PWR;
-    fRightDrivePower = DRIVE_SPIN_PWR;
-  } else if (joy1Btn(BTN_DRIVE_SPIN_RIGHT)) {
-    fLeftDrivePower = DRIVE_SPIN_PWR;
-    fRightDrivePower = -DRIVE_SPIN_PWR;
   }
 
   // Normal mode is "half power" mode ... overridden with TURBO button
