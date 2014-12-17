@@ -34,7 +34,7 @@ void UpdateExtention() {
   	extendServoPower = 0;
   }
   else{
-  	extendServoPower = 127;
+  	extendServoPower = 128;
   }
 	servo[PlatformServo] = extendServoPower;
 }
