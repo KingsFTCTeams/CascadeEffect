@@ -25,12 +25,12 @@ void UpdateServo() {
 }
 
 void UpdateExtention() {
-	int joyReadingY = ScaleJoystickInput(joystick.joy2_y2);
+	int joyReadingY = joystick.joy2_y2;
 
-	if(joyReadingY > 0){
+	if(joyReadingY > 10){
 		extendServoPower = 255;
   }
-  else if(joyReadingY < 0){
+  else if(joyReadingY < -10){
   	extendServoPower = 0;
   }
   else{
