@@ -2,6 +2,8 @@ bool servoDown = false;
 int goalBackServoPos = SERVO_BACK_STOW_POSIITON;
 int goalFrontServoPos = SERVO_FRONT_STOW_POSITION;
 int extendServoPower = 0;
+int centerServoPos = 0;
+bool centerScored = false;
 void UpdateCollector() {
 	motor[Collector] = (joy2Btn(BTN_COLLECTOR_IN)) ? FORWARD_COLLECT_POWER : ((joy2Btn(BTN_COLLECTOR_OUT)) ? REVERSE_COLLECT_POWER : NO_POWER);
 }
@@ -37,4 +39,16 @@ void UpdateExtention() {
   	extendServoPower = 128;
   }
 	servo[PlatformServo] = extendServoPower;
+}
+
+void UpdateCenterServo() {
+	if(!centerScored && joy2Btn(BTN_CENTER_SERVO)) {
+		centerServoPos = 255;
+		centerScored = true;
+	}
+	else if(centerScored && joy2Btn(BTN_CENTER_SERVO)) {
+		centerServoPos = 0;
+		centerScored = false;
+	}
+	servo[CenterServo] = centerServoPos;
 }

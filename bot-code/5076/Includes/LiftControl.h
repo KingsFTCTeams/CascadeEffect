@@ -45,10 +45,10 @@ void UpdateLiftPos() {
 			setTarget(LIFT_HIGH_ENCODER);
 			liftMoving = true;
 		}
-		else if(joy2Btn(BTN_LIFT_CENTER)) {
-			setTarget(LIFT_CENTER_ENCODER);
-			liftMoving = true;
-		}
+		//else if(joy2Btn(BTN_LIFT_CENTER)) {
+			//setTarget(LIFT_CENTER_ENCODER);
+			//liftMoving = true;
+		//}
 		else if(joy2Btn(BTN_LIFT_LOW)) {
 			setTarget(LIFT_LOW_ENCODER);
 			liftMoving = true;

@@ -49,6 +49,7 @@ task main() {
     UpdateLiftPos();
     UpdateServo();
     UpdateExtention();
+    UpdateCenterServo();
     wait1Msec(5);
   }
 }

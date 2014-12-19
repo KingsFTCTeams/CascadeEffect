@@ -49,6 +49,8 @@
 	#define BTN_LIFT_HIGH     BtnY
   #define BTN_LIFT_CENTER   BtnRB
 
+	#define BTN_CENTER_SERVO  BtnLB
+
 	#define BTN_PLATFORM_OUT  joy2TopHat_N()
 	#define BTN_PLATFORM_IN   joy2TopHat_S()
 
