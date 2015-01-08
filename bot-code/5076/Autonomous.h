@@ -8,7 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 task main() {
 	int Mission = 1;              // list mission names and numbers here
-	const int nMissionCount = 3;  // set to number of missions...used for menu routine
+	const int nMissionCount = 4;  // set to number of missions...used for menu routine
 	int waitValue = 0;
 
 	InitializeRobot("Autonomous");  // Perform all required initialization sub-routine
@@ -42,11 +42,11 @@ task main() {
 			} else if ( Mission == 3 ) {
 			nxtDisplayCenteredBigTextLine(1, "Mission");
 			nxtDisplayCenteredBigTextLine(3, "KnockBallsFromGround");
-			} /*else if ( Mission == 4 ) {
+			} else if ( Mission == 4 ) {
 			nxtDisplayCenteredBigTextLine(1, "Mission");
-			nxtDisplayCenteredBigTextLine(3, "Defend L");
-			nxtDisplayCenteredBigTextLine(5, "Awesomly");
-			}	else if ( Mission == 5 ) {
+			nxtDisplayCenteredBigTextLine(3, "IR");
+			nxtDisplayCenteredBigTextLine(5, "Auto");
+			}	/*else if ( Mission == 5 ) {
 			nxtDisplayCenteredBigTextLine(2, "Mission");
 			nxtDisplayCenteredBigTextLine(4, "M-L-O");
 			}	else if ( Mission == 6 ) {
@@ -90,7 +90,7 @@ task main() {
 
 	bDisplayDiagnostics = false;   // turn back on normal runtime diagnostics
 
-	waitForStart();               // wait for the FCS to say the match has started
+	//waitForStart();               // wait for the FCS to say the match has started
 
 	wait1Msec(500);
 	//wait1Msec(waitValue);
@@ -107,10 +107,10 @@ task main() {
 	{
 		KnockBallsFromGround();
 	}
-	//else if(Mission == 4)
-	//{
-	//	KnockBallsFromRamp();
-	//}
+	else if(Mission == 4)
+	{
+		IRAuto();
+	}
 	//else if(Mission == 5)
 	//{
 	//	ScoreIRFromGround();

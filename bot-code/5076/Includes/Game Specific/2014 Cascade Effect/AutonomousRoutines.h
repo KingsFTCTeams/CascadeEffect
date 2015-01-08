@@ -40,6 +40,21 @@ void KnockBallsFromGround(){
 
 }
 
+void IRAuto() {
+	SwingTurn(30, TURN_LEFT, BACKWARD);
+	DriveStraight(-2.0, 50);
+	int irPos = ReadIR1();
+	nxtDisplayCenteredBigTextLine(3, "IR: %d", irPos);
+	if(irPos == 9) {
+
+	}
+	else if(irPos == 8) {
+
+	}
+	else {
+
+	}
+}
 //void KnockBallsFromRamp(){
 //}
 //void ScoreIRFromGround(){
