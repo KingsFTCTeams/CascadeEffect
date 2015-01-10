@@ -65,7 +65,23 @@ void IRAutoSeven() {
 		motor[Lift] = 100;
 	}
 	motor[Lift] = 0;
-	DriveStraight(-0.43);
+	DriveStraight(-0.44);
+	wait1Msec(1000);
+	servo[CenterServo] = 20;
+	wait1Msec(2000);
+}
+
+void FinalIR() {
+	PivotTurn(-45);
+	DriveStraight(-1.0, 75);
+	PivotTurn(45);
+	DriveStraight(-0.75, 75);
+	PivotTurn(66);
+	while(abs(nMotorEncoder[Lift]) < 18507) {
+		motor[Lift] = 100;
+	}
+	motor[Lift] = 0;
+	DriveStraight(-0.23, 75);
 	wait1Msec(1000);
 	servo[CenterServo] = 20;
 	wait1Msec(2000);
@@ -94,7 +110,7 @@ void IRAuto() {
 		IRAutoSeven();
 	}
 	else {
-
+		FinalIR();
 	}
 }
 
