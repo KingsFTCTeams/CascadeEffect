@@ -2,13 +2,13 @@ bool servoDown = false;
 int goalBackServoPos = SERVO_BACK_STOW_POSIITON;
 int goalFrontServoPos = SERVO_FRONT_STOW_POSITION;
 int extendServoPower = 0;
-int centerServoPos = 0;
+int centerServoPos = 255;
 bool centerScored = false;
 void UpdateCollector() {
 	motor[Collector] = (joy2Btn(BTN_COLLECTOR_IN)) ? FORWARD_COLLECT_POWER : ((joy2Btn(BTN_COLLECTOR_OUT)) ? REVERSE_COLLECT_POWER : NO_POWER);
 }
-
 void UpdateServo() {
+
 	if(joy1Btn(BTN_SERVO_BACK_DOWN)) {
 		goalBackServoPos = SERVO_BACK_COLLECT_POSITION;
 	}

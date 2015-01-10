@@ -40,21 +40,64 @@ void KnockBallsFromGround(){
 
 }
 
-void IRAuto() {
-	SwingTurn(30, TURN_LEFT, BACKWARD);
-	DriveStraight(-2.0, 50);
-	int irPos = ReadIR1();
-	nxtDisplayCenteredBigTextLine(3, "IR: %d", irPos);
-	if(irPos == 9) {
-
+void IRAutoNine() {
+	//eraseDisplay();
+	//nxtDisplayCenteredBigTextLine(3, "9");
+	while(abs(nMotorEncoder[Lift]) < 18507) {
+		motor[Lift] = 100;
 	}
-	else if(irPos == 8) {
+	motor[Lift] = 0;
+	PivotTurn(6);
+	DriveStraight(-0.44);
+	wait1Msec(2000);
+	servo[CenterServo] = 20;
+	wait1Msec(2000);
+}
 
+void IRAutoSeven() {
+	PivotTurn(-45);
+	DriveStraight(-0.75, 75);
+	PivotTurn(90);
+	//servo[PlatformServo] = 198;
+	//wait1Msec(1000);
+	//servo[PlatformServo] = 127;
+	while(abs(nMotorEncoder[Lift]) < 18507) {
+		motor[Lift] = 100;
+	}
+	motor[Lift] = 0;
+	DriveStraight(-0.43);
+	wait1Msec(1000);
+	servo[CenterServo] = 20;
+	wait1Msec(2000);
+}
+
+void IRAuto() {
+	eraseDisplay();
+	nMotorEncoder[Lift] = 0;
+	//SwingTurn(30, TURN_RIGHT, BACKWARD);
+	DriveStraight(-1, 75);
+	eraseDisplay();
+	while(abs(nMotorEncoder[Lift]) < 5507) {
+		motor[Lift] = 100;
+		nxtDisplayCenteredTextLine(3, "Lift: %d", abs(nMotorEncoder[Lift]));
+	}
+	//nxtDisplayCenteredTextLine(3, "DONE!");
+	motor[Lift] = 0;
+	int irPos = ReadIR1();
+	//while(true) {
+		//nxtDisplayCenteredBigTextLine(3, "IR: %d", ReadIR1());
+	//}
+	if(irPos == 9) {
+		IRAutoNine();
+	}
+	else if(irPos == 7) {
+		IRAutoSeven();
 	}
 	else {
 
 	}
 }
+
 //void KnockBallsFromRamp(){
 //}
 //void ScoreIRFromGround(){

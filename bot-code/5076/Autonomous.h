@@ -8,7 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 task main() {
 	int Mission = 1;              // list mission names and numbers here
-	const int nMissionCount = 4;  // set to number of missions...used for menu routine
+	const int nMissionCount = 5;  // set to number of missions...used for menu routine
 	int waitValue = 0;
 
 	InitializeRobot("Autonomous");  // Perform all required initialization sub-routine
@@ -46,10 +46,10 @@ task main() {
 			nxtDisplayCenteredBigTextLine(1, "Mission");
 			nxtDisplayCenteredBigTextLine(3, "IR");
 			nxtDisplayCenteredBigTextLine(5, "Auto");
-			}	/*else if ( Mission == 5 ) {
+			}	else if ( Mission == 5 ) {
 			nxtDisplayCenteredBigTextLine(2, "Mission");
-			nxtDisplayCenteredBigTextLine(4, "M-L-O");
-			}	else if ( Mission == 6 ) {
+			nxtDisplayCenteredBigTextLine(4, "Center CG");
+			}	/*else if ( Mission == 6 ) {
 			nxtDisplayCenteredBigTextLine(2, "Mission");
 			nxtDisplayCenteredBigTextLine(4, "M-R-O");}*/
 
@@ -111,10 +111,10 @@ task main() {
 	{
 		IRAuto();
 	}
-	//else if(Mission == 5)
-	//{
-	//	ScoreIRFromGround();
-	//}
+	else if(Mission == 5)
+	{
+		IRAutoSeven();
+	}
 	//else if(Mission == 6)
 	//{
 	//	ScoreIRFromRamp();

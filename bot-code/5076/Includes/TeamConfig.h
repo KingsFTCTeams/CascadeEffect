@@ -54,6 +54,8 @@
 	#define BTN_PLATFORM_OUT  joy2TopHat_N()
 	#define BTN_PLATFORM_IN   joy2TopHat_S()
 
+  #define BTN_ZERO_OVERRIDE  joy2TopHat_W()
+
 
   //-------------------------------------------------------------------------------------------
 	// Controller mappings for driver (joystick 1)

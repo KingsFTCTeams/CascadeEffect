@@ -3,7 +3,7 @@
 #pragma config(Motor,  mtr_S1_C1_1,     motorD,        tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C1_2,     motorE,        tmotorTetrix, openLoop)
 #pragma config(Motor,  mtr_S1_C2_1,     motorF,        tmotorTetrix, openLoop)
-#pragma config(Motor,  mtr_S1_C2_2,     Lift,          tmotorTetrix, openLoop)
+#pragma config(Motor,  mtr_S1_C2_2,     Lift,          tmotorTetrix, openLoop, encoder)
 #pragma config(Servo,  srvo_S1_C3_1,    servo1,               tServoNone)
 #pragma config(Servo,  srvo_S1_C3_2,    servo2,               tServoNone)
 #pragma config(Servo,  srvo_S1_C3_3,    servo3,               tServoNone)
@@ -76,6 +76,7 @@ void initializeRobot()
 task main()
 {
   initializeRobot();
+  nMotorEncoder[Lift] = 0;
 
   //waitForStart();   // wait for start of tele-op phase
 
@@ -90,6 +91,7 @@ task main()
   	else {
   		motor[Lift] = 0;
   	}
+  	nxtDisplayCenteredTextLine(3, "Lift: %d", nMotorEncoder[Lift]);
 	  ///////////////////////////////////////////////////////////
 	  ///////////////////////////////////////////////////////////
 	  ////                                                   ////
